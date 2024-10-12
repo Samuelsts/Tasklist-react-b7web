@@ -5,12 +5,19 @@ import { useState } from "react"
 
 
 function Page ()  {
+    
     const [itemIpunt, setItemInput] = useState('');
     const [list,setList] = useState<TodoItem[]>([]);
 
     const handleaddButton = () =>{
+        if(itemIpunt.trim() ==='') return;
+
         setList([...list, {label: itemIpunt, checked: false}]);
         setItemInput('');
+    }
+
+    const deleteItem = (index: Number) => {
+        setList(list.filter((item, key) => key !== index));
     }
 
     return (
@@ -30,8 +37,8 @@ function Page ()  {
             <p className="my-4">{list.length} itens na lista</p>
 
             <ul className="w-full max-w-lg list-disc pl-5">
-                {list.map(item =>(
-                    <li>{item.label} - <button className="hover:underline">[ deletar ]</button></li>
+                {list.map((item, index) =>(
+                    <li key={index}>{item.label} - <button onClick={() => deleteItem(index)} className="hover:underline">[ deletar ]</button></li>
                 ))}
             
             </ul>
